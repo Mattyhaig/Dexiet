@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { getButtonClasses } from '@/components/ui/Button'
 import ThemeToggle from '@/components/ThemeToggle'
+import MobileMenu from '@/components/MobileMenu'
 
 export default async function Navbar() {
   const session = await getServerSession(authOptions)
@@ -19,6 +20,8 @@ export default async function Navbar() {
               <Link href="/dashboard" className="text-sm text-gray-700 hover:text-gray-900">Dashboard</Link>
             )}
           </nav>
+          {/* Mobile menu */}
+          <MobileMenu isAuthed={Boolean(session?.user?.id)} />
         </div>
         <div className="flex items-center gap-2">
           <ThemeToggle />
