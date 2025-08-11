@@ -1,8 +1,10 @@
 import NextAuth, { type NextAuthOptions } from 'next-auth'
 import GithubProvider from 'next-auth/providers/github'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import EmailProvider from 'next-auth/providers/email'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { prisma } from './prisma'
+import nodemailer from 'nodemailer'
 
 function makeProviders() {
   const providers: any[] = []
@@ -14,23 +16,32 @@ function makeProviders() {
       })
     )
   }
-  // Dev fallback for easy sign-in without OAuth; do not use in production
-  providers.push(
-    CredentialsProvider({
-      name: 'Email',
-      credentials: { email: { label: 'Email', type: 'email' } },
-      async authorize(credentials) {
-        const email = credentials?.email?.toLowerCase()
-        if (!email) return null
-        const user = await prisma.user.upsert({
-          where: { email },
-          update: {},
-          create: { email },
-        })
-        return { id: user.id, email: user.email ?? undefined, name: user.name ?? undefined }
-      },
-    })
-  )
+  if (process.env.EMAIL_SERVER && process.env.EMAIL_FROM) {
+    providers.push(
+      EmailProvider({
+        server: process.env.EMAIL_SERVER,
+        from: process.env.EMAIL_FROM,
+      })
+    )
+  } else {
+    // Dev fallback for easy sign-in without OAuth; do not use in production
+    providers.push(
+      CredentialsProvider({
+        name: 'Email',
+        credentials: { email: { label: 'Email', type: 'email' } },
+        async authorize(credentials) {
+          const email = credentials?.email?.toLowerCase()
+          if (!email) return null
+          const user = await prisma.user.upsert({
+            where: { email },
+            update: {},
+            create: { email },
+          })
+          return { id: user.id, email: user.email ?? undefined, name: user.name ?? undefined }
+        },
+      })
+    )
+  }
   return providers
 }
 
