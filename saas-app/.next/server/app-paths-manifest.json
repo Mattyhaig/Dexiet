@@ -4,7 +4,9 @@
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/api/health/route": "app/api/health/route.js",
   "/api/stripe/checkout/route": "app/api/stripe/checkout/route.js",
+  "/api/stripe/portal/route": "app/api/stripe/portal/route.js",
   "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/pro/page": "app/dashboard/pro/page.js",
   "/page": "app/page.js",
   "/api/webhooks/stripe/route": "app/api/webhooks/stripe/route.js"
 }
