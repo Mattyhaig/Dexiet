@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { getButtonClasses } from '@/components/ui/Button'
+import ThemeToggle from '@/components/ThemeToggle'
 
 export default async function Navbar() {
   const session = await getServerSession(authOptions)
@@ -19,6 +20,7 @@ export default async function Navbar() {
           </nav>
         </div>
         <div className="flex items-center gap-2">
+          <ThemeToggle />
           {!session?.user?.id ? (
             <Link href="/api/auth/signin" className={getButtonClasses({ variant: 'outline', size: 'sm' })}>Sign in</Link>
           ) : (

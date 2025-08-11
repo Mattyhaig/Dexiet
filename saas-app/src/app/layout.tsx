@@ -1,6 +1,7 @@
 import '../styles/globals.css'
 import type { ReactNode } from 'react'
 import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -9,6 +10,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Navbar />
         <div className="mx-auto max-w-6xl px-4">
           {children}
+          <Footer />
         </div>
       </body>
     </html>
