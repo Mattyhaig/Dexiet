@@ -1,6 +1,7 @@
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import SubscriptionStatusBadge from '@/components/SubscriptionStatusBadge'
 
 export default async function PricingPage() {
   const session = await getServerSession(authOptions)
@@ -16,9 +17,7 @@ export default async function PricingPage() {
 
       {session?.user?.id && (
         <div className="mt-4">
-          <span className="inline-flex items-center gap-2 rounded border px-3 py-1 text-sm">
-            Status: <b>{sub?.status ?? 'none'}</b>
-          </span>
+          <SubscriptionStatusBadge status={sub?.status ?? 'none'} />
         </div>
       )}
 
