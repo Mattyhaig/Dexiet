@@ -20,7 +20,14 @@
       "static/chunks/fd9d1056-749e5812300142af.js",
       "static/chunks/117-fc52a35b247cd1ab.js",
       "static/chunks/main-app-298ad4163b640e71.js",
-      "static/chunks/app/(marketing)/pricing/page-2a75a3063f35dd25.js"
+      "static/chunks/app/(marketing)/pricing/page-8720c3d807f61f17.js"
+    ],
+    "/dashboard/page": [
+      "static/chunks/webpack-b611f6b205e556c6.js",
+      "static/chunks/fd9d1056-749e5812300142af.js",
+      "static/chunks/117-fc52a35b247cd1ab.js",
+      "static/chunks/main-app-298ad4163b640e71.js",
+      "static/chunks/app/dashboard/page-35d4f5139c5003d7.js"
     ],
     "/page": [
       "static/chunks/webpack-b611f6b205e556c6.js",
