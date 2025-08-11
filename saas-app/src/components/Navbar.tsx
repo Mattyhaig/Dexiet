@@ -11,8 +11,9 @@ export default async function Navbar() {
     <header className="border-b">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
         <div className="flex items-center gap-4">
-          <Link href="/" className="font-semibold">SaaS</Link>
+          <Link href="/" className="font-semibold">Dexiet</Link>
           <nav className="hidden gap-3 sm:flex">
+            <Link href="/domains" className="text-sm text-gray-700 hover:text-gray-900">Domains</Link>
             <Link href="/pricing" className="text-sm text-gray-700 hover:text-gray-900">Pricing</Link>
             {session?.user?.id && (
               <Link href="/dashboard" className="text-sm text-gray-700 hover:text-gray-900">Dashboard</Link>
