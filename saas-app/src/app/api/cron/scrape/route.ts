@@ -3,6 +3,8 @@ import { mockScrape, upsertDomains } from '@/lib/scraper'
 import { prisma } from '@/lib/prisma'
 import { analyzeDomains } from '@/lib/scraper/analyzer'
 import { sendAlertEmail } from '@/lib/email'
+import { loadSources } from '@/lib/scraper/providers'
+import { summarizeDomain } from '@/lib/ai'
 
 export async function POST(req: NextRequest) {
   const secret = process.env.CRON_SECRET
@@ -11,7 +13,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const raw = await mockScrape()
+  const useProviders = (process.env.DEXIET_SOURCES ?? '').trim().length > 0
+  const raw = useProviders ? await loadSources() : await mockScrape()
   const analyzed = analyzeDomains(raw)
   await upsertDomains(analyzed)
 
@@ -35,6 +38,14 @@ export async function POST(req: NextRequest) {
     })
 
     if (domains.length > 0) {
+      if (process.env.OPENAI_API_KEY) {
+        for (const d of domains) {
+          const content = await summarizeDomain(d.name, { score: d.score, backlinks: d.backlinks ?? undefined, traffic: d.traffic ?? undefined })
+          if (content) {
+            await prisma.domain.update({ where: { name: d.name }, data: { aiSummary: content, data: { ...(d as any).data, aiSummary: content } as any } })
+          }
+        }
+      }
       await sendAlertEmail(user.email, domains)
     }
   }
