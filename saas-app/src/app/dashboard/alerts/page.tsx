@@ -3,10 +3,14 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { Button } from '@/components/ui/Button'
+import { isUserPro } from '@/lib/subscription'
 
 export default async function AlertsPage() {
   const session = await getServerSession(authOptions)
   if (!session?.user?.id) redirect('/api/auth/signin')
+
+  const allowed = await isUserPro(session.user.id)
+  if (!allowed) redirect('/pricing')
 
   const alerts = await prisma.alert.findMany({ where: { userId: session.user.id } })
 

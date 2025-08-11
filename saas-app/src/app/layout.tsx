@@ -3,6 +3,11 @@ import type { ReactNode } from 'react'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
+export const metadata = {
+  title: 'Dexiet — Domain Name Specialists',
+  description: 'AI-enhanced expired domain searcher and analyzer for professionals.',
+}
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
