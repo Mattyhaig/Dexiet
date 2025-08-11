@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import SubscriptionStatusBadge from '@/components/SubscriptionStatusBadge'
+import { Button } from '@/components/ui/Button'
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions)
@@ -23,10 +24,12 @@ export default async function DashboardPage() {
       <div className="mt-6 flex gap-3">
         {isActive && (
           <form action="/api/stripe/portal" method="POST">
-            <button className="btn" type="submit">Manage billing</button>
+            <Button type="submit" variant="outline">Manage billing</Button>
           </form>
         )}
-        <a className="btn" href="/dashboard/pro">Pro feature</a>
+        <a href="/dashboard/pro">
+          <Button>Pro feature</Button>
+        </a>
       </div>
     </main>
   )
